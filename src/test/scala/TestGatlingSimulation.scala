@@ -43,14 +43,14 @@ class TestGatlingSimulation extends Simulation {
       .exec(cql("match search2")
         .execute("""select * from atwater.product where solr_query = '{"q":"brandname:${randomWord}"}'"""))
       .exec(cql("match search3")
-        .execute("""select * from atwater.product where solr_query = '{"q":"short_description:${randomWord}"}'"""))*/
-      .exec(cql("facet search")
-       .execute("""select * from atwater.product where solr_query = '{"q":"*:*","fq":"name:${randomWord}", "facet":{"field":["product_tags","brandname"],"limit":10}}'"""))
+        .execute("""select * from atwater.product where solr_query = '{"q":"short_description:${randomWord}"}'"""))
+     // .exec(cql("facet search")
+     //  .execute("""select * from atwater.product where solr_query = '{"q":"*:*","fq":"name:${randomWord}", "facet":{"field":["product_tags","brandname"],"limit":10}}'"""))
 
 
   }
 
-  setUp(scn.inject(rampUsersPerSec(50) to 500 during (45 seconds)))
+  setUp(scn.inject(rampUsersPerSec(200) to 1100 during (60 seconds)))
     .protocols(cqlConfig)
 
   after(cluster.close()) // close session and stop associated threads started by the Java/Scala driver
